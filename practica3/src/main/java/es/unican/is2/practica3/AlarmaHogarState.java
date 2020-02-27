@@ -6,7 +6,8 @@ public abstract class AlarmaHogarState {
 	private static Encendida estadoEncendida = new Encendida();
 	private static MovimientoDetectado estadoMovimientoDetectado = new MovimientoDetectado();
 	private static IntrusoDetectado estadoIntrusoDetectado = new IntrusoDetectado();
-
+	private static TimedStateController timedStateController = TimedStateController.getInstance();
+	
 	public static AlarmaHogarState init(AlarmaHogar context) {
 		estadoApagada.entryAction(context);
 		return estadoApagada;      
@@ -41,7 +42,9 @@ public abstract class AlarmaHogarState {
 		return estadoIntrusoDetectado;     
 	}
 
-
+	public static TimedStateController getTimedStateController() {
+		return timedStateController;
+	}
 	
 
 }

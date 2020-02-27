@@ -14,4 +14,6 @@ public class Apagada extends AlarmaHogarState{
 		getEstadoEsperandoSalida().entryAction(context);
 		getEstadoEsperandoSalida().doAction(context);
 	}
+	
+	
 }
