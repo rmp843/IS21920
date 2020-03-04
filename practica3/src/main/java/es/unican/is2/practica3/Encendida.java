@@ -3,6 +3,7 @@ package es.unican.is2.practica3;
 public class Encendida extends AlarmaHogarState{
 
 	public void entryAction(AlarmaHogar context) {
+		System.out.println("ENCENDIDA");
 		context.activarSensores();
 		context.piloto.encender();
 	}
@@ -10,7 +11,9 @@ public class Encendida extends AlarmaHogarState{
 		context.desactivarSensores();
 	}
 
-	public void Intruso(AlarmaHogar context) {
+	@Override
+	public void intruso(AlarmaHogar context) {
+		System.out.println("Intentado intruso");
 		this.exitAction(context);
 		context.setState(getEstadoMovimientoDetectado());
 		getEstadoMovimientoDetectado().entryAction(context);

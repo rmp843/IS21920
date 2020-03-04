@@ -13,15 +13,15 @@ public abstract class AlarmaHogarState {
 		return estadoApagada;      
 	}
 
-	public void alarmaOff(AlarmaHogar context) {};
-	public void alarmaOn(AlarmaHogar context) {};
-	public void intruso(AlarmaHogar context) {};
-	public void off(AlarmaHogar context) {};
+	public void alarmaOff(AlarmaHogar context, String codigo){}
+	public void alarmaOn(AlarmaHogar context) {}
+	public void intruso(AlarmaHogar context) {}
+	public void off(AlarmaHogar context) {}
 
-	public void notificarCentralita(AlarmaHogar context) {};
-	public void desactivarSensores(AlarmaHogar context) {};
-	public void activarSensores(AlarmaHogar context) {};
-	
+	public void notificarCentralita(AlarmaHogar context) {}
+	public void desactivarSensores(AlarmaHogar context) {}
+	public void activarSensores(AlarmaHogar context) {}
+
 	public void doAction(AlarmaHogar context) {}
 	public void exitAction(AlarmaHogar context) {}
 	public void entryAction(AlarmaHogar context) {}
@@ -45,6 +45,7 @@ public abstract class AlarmaHogarState {
 	public static TimedStateController getTimedStateController() {
 		return timedStateController;
 	}
+	public void timeout(AlarmaHogar context) {}
 	
 
 }
