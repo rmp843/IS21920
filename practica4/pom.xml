@@ -27,7 +27,11 @@
 			<artifactId>fest-swing</artifactId>
 			<version>1.2.1</version>
 		</dependency>
-
+	<dependency>
+            <groupId>es.unican.is2</groupId>
+            <artifactId>ListaOrdenadaAcotada</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 
 	</dependencies>
 </project>
