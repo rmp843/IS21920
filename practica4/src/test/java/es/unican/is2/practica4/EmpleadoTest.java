@@ -4,13 +4,16 @@
 package es.unican.is2.practica4;
 
 import static org.junit.Assert.*;
-
+import es.unican.is2.practica4.model.DatoIncorrectoException;
+import es.unican.is2.practica4.model.FechaIncorrectaException;
+import es.unican.is2.practica4.model.CategoriaIncorrectaException;
 import java.time.LocalDate;
 
 import org.junit.Test;
 
 import es.unican.is2.practica4.model.Empleado;
 import es.unican.is2.practica4.model.Categoria;
+
 
 /**
  * @author docencia
@@ -19,20 +22,21 @@ import es.unican.is2.practica4.model.Categoria;
 public class EmpleadoTest {
 
 	private Empleado empleado; 
-	/**
-	 * Test method for {@link es.unican.is2.practica4.model.Empleado#Empleado(java.lang.String, java.time.LocalDate, es.unican.is2.practica4.model.Categoria)}.
-	 */
-	@Test
-	public void testEmpleado() {
-		fail("Not yet implemented");
-	}
 
 	/**
 	 * Test method for {@link es.unican.is2.practica4.model.Empleado#darBaja()}.
 	 */
 	@Test
 	public void testDarBaja() {
-		fail("Not yet implemented");
+		try {
+			empleado = new Empleado("Michael",java.time.LocalDate.now(),Categoria.DIRECTIVO);
+			empleado.baja = false;
+			assert(empleado.darDeBaja());
+			assert(!empleado.darDeBaja());
+		}
+		catch(Exception e) {
+			fail("Fallo de excepción");
+		}
 	}
 
 	/**
@@ -40,90 +44,150 @@ public class EmpleadoTest {
 	 */
 	@Test
 	public void testSueldoBruto() {
-		
+
+		//CASOS CORRECTOS
 		LocalDate current = java.time.LocalDate.now();
-		
-		empleado = new Empleado("Michael",current, Categoria.DIRECTIVO);
-		empleado.baja = true;
-		//1.DIRECTOR,TRUE,HOY
-		empleado.sueldoBruto();
-		
+
+		try {
+			empleado = new Empleado("Michael",current, Categoria.DIRECTIVO);
+			empleado.baja = true;
+			//1.DIRECTOR,TRUE,HOY
+			assert(empleado.sueldoBruto() == 1125);
+		}catch(Exception e) {
+			fail("Ha habido un error en el método");
+		}
+
+
 		//2.GESTOR,FALSE,HOY-3
-		empleado.baja = false;
-		empleado.categoria = Categoria.GESTOR;
-		
-		empleado.fechaContratacion = current.minusDays(3);
-		empleado.sueldoBruto();
-		
+		try {
+			empleado.baja = false;
+			empleado.categoria = Categoria.GESTOR;
+
+			empleado.fechaContratacion = current.minusYears(3);
+
+			assert(empleado.sueldoBruto()==1200);
+		}catch(Exception e) {
+			fail("Ha habido un error en el método");
+		}
 		//3.OBRERO,FALSE,HOY-5
-		empleado.categoria=Categoria.OBRERO;
-		empleado.fechaContratacion =  current.minusDays(5);
-		empleado.sueldoBruto();
-		
+		try {
+			empleado.categoria=Categoria.OBRERO;
+			empleado.fechaContratacion =  current.minusYears(5);
+			assert(empleado.sueldoBruto()==100);
+		}catch(Exception e) {
+			fail("Ha habido un error en el método");
+		}
+
 		//4.OBRERO,FALSE,HOY-7
-		empleado.fechaContratacion =  current.minusDays(7);
-		empleado.categoria = Categoria.DIRECTIVO;
-		empleado.sueldoBruto();
-		
+		try{
+			empleado.fechaContratacion =  current.minusYears(7);
+			empleado.categoria = Categoria.DIRECTIVO;
+			assert(empleado.sueldoBruto()==1550);
+		}catch(Exception e) {
+			fail("Ha habido un error en el metodo");
+		}
 		//5.GESTOR,TRUE,HOY-6
-		empleado.baja=true;
-		empleado.fechaContratacion =  current.minusDays(6);
-		empleado.categoria = Categoria.GESTOR;
-		empleado.sueldoBruto();
-		
+		try {
+			empleado.baja=true;
+			empleado.fechaContratacion =  current.minusYears(6);
+			empleado.categoria = Categoria.GESTOR;
+			assert(empleado.sueldoBruto()==937.5);
+		}catch(Exception e) {
+			fail("Ha habido un error en el metodo");
+		}
 		//6.DIRECTOR,FALSE,HOY-10
-		empleado.fechaContratacion = current.minusDays(10);
-		empleado.baja=false;
-		empleado.categoria = Categoria.DIRECTIVO;
-		empleado.sueldoBruto();
-		
+		try {
+			empleado.fechaContratacion = current.minusYears(10);
+			empleado.baja=false;
+			empleado.categoria = Categoria.DIRECTIVO;
+			assert(empleado.sueldoBruto()==1550);
+		}catch(Exception e) {
+			fail("Ha habido un error en el metodo");
+
+		}
 		//7.GESTOR,FALSE,HOY-11
-		empleado.categoria = Categoria.GESTOR;
-		empleado.fechaContratacion =  current.minusDays(11);
-		empleado.sueldoBruto();
-		
+		try {
+			empleado.categoria = Categoria.GESTOR;
+			empleado.fechaContratacion =  current.minusYears(11);
+			assert(empleado.sueldoBruto()==1300);
+		}catch(Exception e) {
+			fail("Ha habido un error en el metodo");
+		}
 		//8.OBRERO,TRUE,HOY-12
-		empleado.categoria = Categoria.OBRERO;
-		empleado.fechaContratacion =  current.minusDays(12);
-		empleado.baja=true;
-		empleado.sueldoBruto();
-		
+		try {
+			empleado.categoria = Categoria.OBRERO;
+			empleado.fechaContratacion =  current.minusYears(12);
+			empleado.baja=true;
+			assert(empleado.sueldoBruto()==150);
+		}catch(Exception e) {
+			fail("Ha habido un error en el metodo");
+		}
 		//9.OBRERO,FALSE,HOY-20
-		empleado.baja=false;
-		empleado.fechaContratacion =  current.minusDays(20);
-		empleado.sueldoBruto();
-		
+		try {
+			empleado.baja=false;
+			empleado.fechaContratacion =  current.minusYears(20);
+			assert(empleado.sueldoBruto()==200);
+		}catch(Exception e) {
+			fail("Ha habido un error en el metodo");
+		}
+
 		//10.GESTOR,TRUE,HOY-22
-		empleado.fechaContratacion =  current.minusDays(22);
-		empleado.baja=true;
-		empleado.categoria=Categoria.OBRERO;
-		empleado.sueldoBruto();
-		
+		try {
+			empleado.fechaContratacion =  current.minusYears(22);
+			empleado.baja=true;
+			empleado.categoria=Categoria.GESTOR;
+			assert(empleado.sueldoBruto()==1050);
+		}catch(Exception e) {
+			fail("Ha habido un error en el metodo");
+		}
 		//11.GESTOR,FALSE,HOY-21
-		empleado.fechaContratacion =  current.minusDays(21);
-		empleado.baja=false;
-		empleado.categoria=Categoria.GESTOR;
-		empleado.sueldoBruto();
-		
-		//1.DIRECTOR,TRUE,HOY
-		empleado.fechaContratacion =  current;
-		empleado.baja=true;
-		empleado.categoria=Categoria.DIRECTIVO;
-		
+		try {
+			empleado.fechaContratacion =  current.minusYears(21);
+			empleado.baja=false;
+			empleado.categoria=Categoria.GESTOR;
+			assert(empleado.sueldoBruto()==1400);
+		}catch(Exception e) {
+			fail("Ha habido un error en el metodo");
+		}
+		//CASOS FALLIDOS
+
+
+		//1.SECRETARIO,TRUE,HOY
+		try {
+			empleado.categoria=Categoria.SECRETARIO;
+			empleado.sueldoBruto();
+			fail("Debería haber saltado excepción");
+		}catch(CategoriaIncorrectaException e) {}
+
 		//2.NULL,TRUE,HOY
-		empleado.categoria=null;
-		
+		try {
+			empleado.categoria=null;
+			empleado.sueldoBruto();
+			fail("Debería haber saltado excepción");
+		}catch(Exception e) {
+
+		}
 		//3.DIRECTOR,TRUE,MAÑANA
-		empleado.fechaContratacion=current.plusDays(1);
-		//4.DIRECTOR, TRUE, 
-		
-		
-		
-		
-		
-		fail("Not yet implemented");
-		
-		
+		try {
+			empleado.fechaContratacion=current.plusDays(1);
+			empleado.sueldoBruto();
+			fail("Deberia haber saltado la excepcion");
+		}catch(FechaIncorrectaException e) {}
+
+		//3.DIRECTOR,TRUE,DAY+2
+		try {
+			empleado.fechaContratacion=current.plusDays(2);
+			empleado.sueldoBruto();
+			fail("Deberia haber saltado la excepcion");
+		}catch(FechaIncorrectaException e) {}
+
+
+		//4.DIRECTOR, TRUE, NULL
+		try {
+			empleado.fechaContratacion=null; 
+			empleado.sueldoBruto();
+			fail("Debería haber saltado excepción");
+		}catch(FechaIncorrectaException e) {}
 	}
 
 

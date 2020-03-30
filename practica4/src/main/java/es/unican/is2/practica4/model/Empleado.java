@@ -11,40 +11,73 @@ public class Empleado {
 	public LocalDate fechaContratacion;
 	public boolean baja;
 	public Categoria categoria;
-	
-	public Empleado(String nombre, LocalDate fechaUltimaVisita, Categoria categoria) {
+
+	public Empleado(String nombre, LocalDate fecha, Categoria categoria) {
 		baja = false;
 		this.categoria = categoria;
+		fechaContratacion = fecha;
 	}
 
 	public double sueldoBruto() {
+
+
+
+		//Si la fecha de contratación es mayor al día de hoy, o erronea lanzamos error
+		if (fechaContratacion == null || fechaContratacion.isAfter(java.time.LocalDate.now())) {
+			throw new FechaIncorrectaException();
+		}
 		int years = difYears(fechaContratacion,java.time.LocalDate.now());
+		//Si la categoria es null lanzamos error
+		if(categoria == null) {
+			throw new DatoIncorrectoException();
+		}
 		double sueldo = 0;
 		switch(categoria) {
 		case DIRECTIVO:
 			sueldo = 1500;
+			break;
 		case GESTOR:
 			sueldo = 1200;
+			break;
 		case OBRERO:
-			sueldo = 1000;
+			sueldo = 100;
+			break;
+		default:
+			throw new CategoriaIncorrectaException();
 		}
+		//bonificacion para más de 5 años
 		if(years > 5 && years <= 10) {
 			sueldo+= 50;
 		}
-		else if(years > 10 && years < 10) {
+		//bonificación para más de 10 años
+		else if(years > 10 && years <= 20) {
 			sueldo+=100;
 		}
-		else {
+		//bonificacion para más de 20 años
+		else if(years > 20){
 			sueldo+=200;
+		}
+		if(baja) {
+			sueldo = sueldo - (sueldo*0.25); 
 		}
 		return sueldo;
 	}
-	
-	
-	public void darBaja() {
-		baja = true;
+
+
+	public boolean darDeBaja() {
+		if(!baja) {
+			baja = true;
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
-	
+
+	public boolean darDeAlta() {
+		baja=false;
+		return baja;
+	}
 	/**
 	 * Devuelve la diferencia de años entre 2 fechas
 	 * @param from
@@ -52,7 +85,7 @@ public class Empleado {
 	 * @return
 	 */
 	private int difYears(LocalDate from, LocalDate to) {
-        Period period = Period.between(from, to);
-        return period.getYears();
+		Period period = Period.between(from, to);
+		return period.getYears();
 	}
 }
