@@ -7,8 +7,10 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import es.unican.is2.practica4.model.Categoria;
+import es.unican.is2.practica4.model.CategoriaIncorrectaException;
 import es.unican.is2.practica4.model.DatoIncorrectoException;
 import es.unican.is2.practica4.model.Empleado;
+import es.unican.is2.practica4.model.FechaIncorrectaException;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -17,6 +19,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.awt.event.ActionEvent;
 import javax.swing.DropMode;
 import javax.swing.JComboBox;
@@ -57,7 +60,7 @@ public class EmpleadosGUI extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		txtFechaContratacion = new JTextField();
 		txtFechaContratacion.setText("dd/mm/yyyy");
 		txtFechaContratacion.setName("txtFechaContratacion");
@@ -68,50 +71,57 @@ public class EmpleadosGUI extends JFrame {
 		JLabel lblSueldo = new JLabel("SUELDO");
 		lblSueldo.setBounds(10, 140, 126, 17);
 		contentPane.add(lblSueldo);
-		
+
 		txtSueldo = new JTextField();
 		txtSueldo.setName("txtSueldo");
 		txtSueldo.setBounds(100, 140, 208, 18);
 		contentPane.add(txtSueldo);
 		txtSueldo.setColumns(10);
-		
+
 		JButton btnCalcular = new JButton("CALCULAR");
 		btnCalcular.setName("btnCalcular");
 		btnCalcular.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent arg0) {
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-			    LocalDate fechaUltimaVisita = LocalDate.parse(txtFechaContratacion.getText(), formatter);
-			    boolean baja = btnBaja.isSelected();
-			    Categoria categoria = Categoria.valueOf(comboCategoria.getSelectedItem().toString());
-			    Empleado emp = new Empleado("Pepe", fechaUltimaVisita, categoria);
-			    if (baja)
-			    	emp.darBaja();
-			    double sueldo = 0;
+				LocalDate fechaUltimaVisita = null;
+				try {
+				fechaUltimaVisita = LocalDate.parse(txtFechaContratacion.getText(), formatter);	
+				}catch( DateTimeParseException e) {
+					System.out.println("Fecha con formato incorrecto");
+				}
+				
+				boolean baja = btnBaja.isSelected();
+				Categoria categoria = Categoria.valueOf(comboCategoria.getSelectedItem().toString());
+				Empleado emp = new Empleado("Pepe", fechaUltimaVisita, categoria);
+				if (baja)
+					emp.darBaja();
+				double sueldo = 0;
 				try {			
 					sueldo = emp.sueldoBruto();
 					txtSueldo.setText(Double.toString(sueldo));
-				} catch (DatoIncorrectoException e) {
+				} catch (FechaIncorrectaException e) {
 					txtSueldo.setText(Double.toString(sueldo));
 				}
-				
+
 			}
 		});
 		btnCalcular.setBounds(134, 88, 126, 29);
 		contentPane.add(btnCalcular);
-		
+
 		btnBaja = new JRadioButton("Baja");
 		btnBaja.setBounds(249, 26, 109, 23);
-		btnBaja.setName("btnVIP");
+		btnBaja.setName("btnBaja");
 		contentPane.add(btnBaja);
-		
+
 		comboCategoria = new JComboBox();
 		comboCategoria.setModel(new DefaultComboBoxModel(new String[] {"DIRECTIVO", "GESTOR", "OBRERO"}));
 		comboCategoria.setBounds(124, 47, 86, 20);
 		contentPane.add(comboCategoria);
-		
+		comboCategoria.setName("comboCategoria");
 		JLabel lblCategoria = new JLabel("Categor\u00EDa");
 		lblCategoria.setBounds(10, 50, 114, 14);
 		contentPane.add(lblCategoria);
-		
+
 	}
 }

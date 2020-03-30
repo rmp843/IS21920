@@ -64,7 +64,7 @@ public class Empleado {
 	}
 
 
-	public boolean darDeBaja() {
+	public boolean darBaja() {
 		if(!baja) {
 			baja = true;
 			return true;
@@ -74,10 +74,6 @@ public class Empleado {
 		}
 	}
 
-	public boolean darDeAlta() {
-		baja=false;
-		return baja;
-	}
 	/**
 	 * Devuelve la diferencia de años entre 2 fechas
 	 * @param from

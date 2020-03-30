@@ -27,12 +27,12 @@ public class EmpleadoTest {
 	 * Test method for {@link es.unican.is2.practica4.model.Empleado#darBaja()}.
 	 */
 	@Test
-	public void testDarBaja() {
+	public void testBaja() {
 		try {
 			empleado = new Empleado("Michael",java.time.LocalDate.now(),Categoria.DIRECTIVO);
 			empleado.baja = false;
-			assert(empleado.darDeBaja());
-			assert(!empleado.darDeBaja());
+			assert(empleado.darBaja());
+			assert(!empleado.darBaja());
 		}
 		catch(Exception e) {
 			fail("Fallo de excepción");
@@ -151,7 +151,7 @@ public class EmpleadoTest {
 		}
 		//CASOS FALLIDOS
 
-
+		
 		//1.SECRETARIO,TRUE,HOY
 		try {
 			empleado.categoria=Categoria.SECRETARIO;
