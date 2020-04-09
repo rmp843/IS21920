@@ -14,7 +14,8 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-
+ 
+ 
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -27,11 +28,35 @@
 			<artifactId>fest-swing</artifactId>
 			<version>1.2.1</version>
 		</dependency>
-	<dependency>
-            <groupId>es.unican.is2</groupId>
-            <artifactId>ListaOrdenadaAcotada</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
 	</dependencies>
+	
+<build>
+<plugins>
+	<plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-assembly-plugin</artifactId>
+		<version>2.4.1</version>
+		<configuration>
+			<descriptorRefs>
+				<descriptorRef>jar-with-dependencies</descriptorRef>
+			</descriptorRefs> <!-- MainClass in manifest make a executable jar -->
+			<archive>
+				<manifest>
+					<mainClass>es.unican.is2.practica4.gui.EmpleadosGUI</mainClass>
+				</manifest>
+			</archive>
+		</configuration>
+		<executions>
+			<execution>
+				<id>make-assembly</id> <!-- bind to the packaging phase -->
+				<phase>package</phase>
+				<goals>
+					<goal>single</goal>
+				</goals>
+			</execution>
+		</executions>
+	</plugin>
+
+</plugins>
+</build>
 </project>

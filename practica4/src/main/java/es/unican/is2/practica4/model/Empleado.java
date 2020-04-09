@@ -3,8 +3,6 @@ package es.unican.is2.practica4.model;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Date;
-
 public class Empleado {
 
 	public String nombre;

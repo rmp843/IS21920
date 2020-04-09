@@ -4,7 +4,6 @@
 package es.unican.is2.practica4;
 
 import static org.junit.Assert.*;
-import es.unican.is2.practica4.model.DatoIncorrectoException;
 import es.unican.is2.practica4.model.FechaIncorrectaException;
 import es.unican.is2.practica4.model.CategoriaIncorrectaException;
 import java.time.LocalDate;

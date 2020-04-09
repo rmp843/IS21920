@@ -9,15 +9,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import es.unican.is2.practica4.gui.EmpleadosGUI;
-import es.unican.is2.practica4.model.Categoria;
-import es.unican.is2.practica4.model.Empleado;
-
-import static org.junit.Assert.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import org.junit.Test;
 
 /**
  * @author Roberto
